@@ -14,9 +14,12 @@ readdir(fileReadPath, { withFileTypes: true }).then((files) => {
       if (err) {
         console.log(err.message);
       } else {
-        if(file.name.split('.')[1] === 'css'){
-            output.write(data);
-            output.write('\n');
+        if (file.name.split(".")[1] === "css") {
+          output.write(data);
+          output.write("\n");
+          if (data[data.length - 1] === "}") {
+            output.write("\n");
+          }
         }
       }
     });
