@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { readdir } = require("fs/promises");
+const { readdir, readFile } = require("fs/promises");
 
 let projDist = path.join(__dirname, "project-dist");
 let indHtml = path.join(projDist, "index.html");
@@ -21,17 +21,17 @@ fs.mkdir(projDist, { recursive: true }, (error) => {
 
 async function createHTML(){
   async function readTemp() {
-    let data = await fs.promises.readFile(templHtml, "utf-8");
+    let data = await readFile(templHtml, "utf-8");
     return data;
   }
   
   async function readComp() {
     let compArr = {};
-    let files = await fs.promises.readdir(components, { withFileTypes: true });
+    let files = await readdir(components, { withFileTypes: true });
   
     for (let file of files) {
       let filePath = path.join(components, file.name);
-      let fileContent = await fs.promises.readFile(filePath, "utf-8");
+      let fileContent = await readFile(filePath, "utf-8");
       let fileName = `{{${file.name.split(".")[0]}}}`;
       compArr[fileName] = fileContent;
     }
